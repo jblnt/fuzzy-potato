@@ -25,6 +25,7 @@ services:
 
   app:
     build: .
+    container_name: nextcloud_custom
     restart: always
     depends_on:
       - db
