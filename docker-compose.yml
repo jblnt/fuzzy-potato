@@ -11,7 +11,7 @@ networks:
 services:
   db:
     image: mariadb
-    container_name: nextcloud_db
+    container_name: nextcloud-db
     restart: always
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     networks:
@@ -26,18 +26,17 @@ services:
 
   app:
     build: .
-    container_name: nextcloud_app_custom
+    container_name: nextcloud-app-custom
     restart: always
     depends_on:
       - db
     networks:
       - nextcloud_net
     ports:
-      - 8443:443
+      - 127.0.0.1:8080:80
     volumes:
       - nextcloud_data:/srv/nextcloud/data
       - nextcloud_config:/var/www/html/config
-      - ./certs:/etc/apache2/certs
     environment:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
@@ -47,4 +46,3 @@ services:
       - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PWD}
       - NEXTCLOUD_TRUSTED_DOMAINS=${SERVER_IP}
       - NEXTCLOUD_DATA_DIR=${DATA_DIR}
-
