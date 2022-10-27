@@ -19,16 +19,5 @@ RUN set -ex; \
     \
     rm -rf /var/lib/apt/lists/*
 
-RUN a2enmod ssl; \
-    a2enmod rewrite; \
-    a2enmod headers 
-
-COPY ssl-nextcloud.conf /etc/apache2/sites-available/
-
-RUN a2ensite ssl-nextcloud && a2dissite 000-default
-
-RUN mkdir -p /etc/apache2/certs
-
 RUN mkdir -p /srv/nextcloud/data; \
     chown www-data /srv/nextcloud/data
-
